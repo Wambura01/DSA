@@ -18,18 +18,21 @@
 const words = ["i", "love", "leetcode", "i", "love", "coding"];
 
 var topKFrequent = function (words, k) {
-  const fWords = {};
+  const fWords = {}; // create object to store word frequency
 
+  // loop through the words array and add them to the object and update their frequency
   for (let word of words) {
     fWords[word] = fWords[word] ? fWords[word] + 1 : 1;
   }
 
+  // sort the words with frequency or lexicographical order if frequency is the same
   let solution = Object.keys(fWords).sort((a, b) => {
     let countCompare = fWords[b] - fWords[a];
     if (countCompare == 0) return a.localeCompare(b);
     else return countCompare;
   });
 
+  // return the sliced array depending on the value of k
   console.log("F-WORDS: ", solution.slice(0, k));
 };
 

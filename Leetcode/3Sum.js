@@ -26,15 +26,53 @@
 
 const nums = [-1, 0, 1, 2, -1, -4];
 
+// Brute Force Solution
 const threeSome = (nums) => {
-  let solution = [];
-  for (let i = 0; i <= nums.length - 1; i++) {
-    if (nums[i] + nums[i + 1] + nums[i + 2] === 0) {
-      solution.push([nums[i], nums[i + 1], nums[i + 2]]);
+  let result = [];
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      for (let k = j + 1; k < nums.length; k++) {
+        if (nums[i] + nums[j] + nums[k] === 0) {
+          result.push([nums[i], nums[j], nums[k]]);
+        }
+      }
     }
   }
 
-  console.log(solution);
+  console.log(result);
 };
 
 threeSome(nums);
+
+// Optimized solution - Sort first, use double pointers to solve, pay attention to repeated numbers
+const threeSomeO = (nums) => {
+  let len = nums.length;
+  let res = [];
+  let l = 0;
+  let r = 0;
+
+  nums.sort((a, b) => a - b); // for proper code organization
+
+  for (let i = 0; i < len; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+    l = i + 1;
+    r = len - 1;
+    while (l < r) {
+      if (nums[i] + nums[l] + nums[r] < 0) {
+        l++;
+      } else if (nums[i] + nums[l] + nums[r] > 0) {
+        r--;
+      } else {
+        res.push([nums[i], nums[l], nums[r]]);
+        while (l < r && nums[l] === nums[l + 1]) l++;
+        while (l < r && nums[r] === nums[r - 1]) r--;
+        l++;
+        r--;
+      }
+    }
+  }
+  console.log(res);
+};
+
+threeSomeO(nums);
